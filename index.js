@@ -16,7 +16,7 @@ function _findRoute(path,stack) {
         if (layer.name == 'router') {
             routes=routes.concat(_findRoute(trimPrefix(path, layer.path),layer.handle.stack));
         } else {
-            if (layer.name == 'bound ') {
+            if (layer.name == '<anonymous>') {
                 routes.push({route: layer || null, stack: stack});
             }
         }
@@ -45,7 +45,7 @@ module.exports = function removeRoute(app, path, method) {
         route = layer.route;
         stack = layer.stack;
 
-        if (route) {
+        if (route && route.path == path) {
             if(_.isEmpty(method)){  // if no method delete all resource with the given path
                 idx = stack.indexOf(route);
                 stack.splice(idx, 1);
